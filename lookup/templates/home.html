@@ -9,7 +9,30 @@
     {% extends 'base.html' %}
     
     {% block content %}
-    <h1>Hello World!</h1>  
+    {% if zipcode %}
+        {{zipcode}}
+    {% endif %}
+    {% if api %}
+        {% if api.error %}
+            There was an error, please try again...
+        {% else %}
+            <div class="d-flex justify-content-center align-items-center" style="min-height: calc(100vh - 56px);">
+                <div class="{{ category_color }} card w-25 mb-3 shadow-lg">
+                    <div class="card-body">
+                        <h1 class="card-title">{{ api.0.ReportingArea }}</h1>
+                        <h5 class="card-title">Air Quality: {{ api.0.AQI }}</h5>
+                        <h5 class="card-title">Category: {{ api.0.Category.Name }}</h5>
+                        <!-- <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
+                        <a href="#" class="btn btn-primary">Button</a> -->
+                    </div>
+                </div> 
+            </div>  
+
+        {% endif%}
+
+
+    {% endif %}
+
     {% endblock %}
     
 </body>
