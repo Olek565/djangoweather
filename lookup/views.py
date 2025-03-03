@@ -1,16 +1,19 @@
 from django.shortcuts import render
+from dotenv import load_dotenv, dotenv_values
+import os
 
 # Create your views here.
+load_dotenv()
 
 def home(request):
     import json
     import requests
-    # https://www.airnowapi.org/aq/observation/zipCode/current/?format=application/json&zipCode=89129&distance=5&API_KEY=AC1B48E5-32A8-4874-B6B1-91830013A1F4
 
-
+    apiKey = os.getenv("AIRNOW_API")
+    
     if request.method == "POST":
         zipcode = request.POST['zipcode']
-        apiRequest = requests.get(f"https://www.airnowapi.org/aq/observation/zipCode/current/?format=application/json&zipCode={zipcode}&distance=5&API_KEY=AC1B48E5-32A8-4874-B6B1-91830013A1F4")
+        apiRequest = requests.get(f"https://www.airnowapi.org/aq/observation/zipCode/current/?format=application/json&zipCode={zipcode}&distance=5&API_KEY={apiKey}")
         try:
             api = json.loads(apiRequest.content)
         except json.JSONDecodeError as e:
@@ -40,7 +43,7 @@ def home(request):
 
     else:
 
-        apiRequest = requests.get("https://www.airnowapi.org/aq/observation/zipCode/current/?format=application/json&zipCode=89129&distance=5&API_KEY=AC1B48E5-32A8-4874-B6B1-91830013A1F4")
+        apiRequest = requests.get(f"https://www.airnowapi.org/aq/observation/zipCode/current/?format=application/json&zipCode=89129&distance=5&API_KEY={apiKey}")
         try:
             api = json.loads(apiRequest.content)
         except json.JSONDecodeError as e:
